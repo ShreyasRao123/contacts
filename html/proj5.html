@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+    
+        <title> </title>
+        <meta charset="utf-8">
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit-no">
+        
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        
+        <link rel="stylesheet" href="include_templ/bootstrap.min.css">
+
+       <style>
+			body{
+        		background-color: rgb(30,20,10);
+        	}
+
+			html {
+			     scroll-behavior: smooth;
+			}
+
+        	.box {
+        		background-color: rgb(255,150,50);
+        		border-radius: 1em;
+        		//text-align: center;
+        	}
+
+        	.h-bg{
+        		background-color: rgb(200,100,50)
+        	}
+
+        	.r1{ border-radius: 1em 0 0 0 }
+
+/*Classes for Button colors*/
+
+        	.b{
+        		background-color: rgb(50,10,0);
+        		color:white;
+        	}
+
+        	.b:hover {
+        		background-color: rgb(80,20,0);	
+        		color:white;
+        	}
+
+        	.e{
+        		background-color: rgba(30,20,10,0.6);
+        	}
+
+			.e:hover{
+        		background-color: rgba(30,20,10,1);
+        	}
+
+        	@media (min-device-width:768px)	{
+	        	.c .btn{
+	        		opacity: 0%;
+	        		transition:opacity 0.5s
+	        	}
+
+	        	.c:hover .btn{
+	        		opacity: 100%;
+	        		transition:opacity 0.5s
+	        	}
+
+        	}
+
+        	.c{/*for contact cards*/
+        		min-width: 250px;
+        		max-width: 720px
+        	}
+
+        	.box .btn-group-sm {
+        		position:absolute;
+        		right: 5px;
+        		bottom: 5px;
+        	}
+
+        	.bg-grey {
+        		background-color: rgba(100,100,100,0.3);
+        	}
+
+        	input, textarea{
+        		opacity: 80%
+        	}
+
+        </style>
+    
+    </head>
+    
+    <body>
+<!-- NAVIGATION BAR -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-grey">
+            <a class="navbar-brand text-light mr-auto" href="#">
+            	<svg width="64" height="64" version="1.1" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><g transform="translate(0 -280.07)" stroke="#ff2e00"><path d="m88 404.07h-44l-38.327-76 58.327-44 59.498 44z" stroke-width="7.5591"/><path d="m101.84 329.62c-10.351-10.775-25.236-17.047-40.177-16.932-3.777 0.0292-7.5705 0.45205-11.187 1.5416-3.6165 1.0895-7.0575 2.8628-9.8567 5.3988s-4.9337 5.8572-5.8042 9.5326c-0.87051 3.6754-0.42087 7.6976 1.4826 10.96 1.7893 3.0667 4.7552 5.332 8.0116 6.7469s6.8044 2.0357 10.34 2.3584c7.0716 0.64542 14.442 0.18766 20.996 2.9197 4.1572 1.7328 7.7961 4.7448 10.143 8.5891 2.3467 3.8442 3.3635 8.5123 2.6749 12.963-0.85633 5.5351-4.3435 10.533-9.0577 13.558-4.7142 3.0243-10.558 4.1186-16.108 3.3719-4.5481-0.61176-8.9288-2.4274-12.576-5.2123-3.6474-2.785-6.5529-6.5326-8.3412-10.759" fill="none" stroke-opacity=".98039" stroke-width="13.677"/></g></svg>
+            	Contacts Management
+            </a>
+            <button class="navbar-toggler bg-secondary align-items-end" type="button" data-toggle="collapse" data-target='#collapsedItems'>
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </nav>
+        <div class="container-fluid">
+	        <div class="row flex-xl-nowrap justify-content-between">
+
+<!-- SIDEBAR -->
+	        	<div class="col-md-3 col-xl-2 bg-grey d-lg-block collapse" id = 'collapsedItems'>
+	        		<div class="row m-1">
+	        			<button class="btn text-light dropdown-toggle btn-block b" data-toggle = "collapse" data-target = "#contact-menu">Contacts</button>
+	        		</div>
+    				<ul class="collapse" id="contact-menu">
+    					<li class="row m-1"><button class="btn text-light btn-block b" type="button" data-toggle = "collapse" data-target="#newContact">New Contact-card</button></li>
+    					<li class="row m-1"><button class="btn text-light btn-block b" type="button" data-toggle = "collapse" data-target="#search">Contact Search</button></li>
+    				</ul>
+	        		
+	        	</div>
+
+	        	<div class="col-md-9 col-xl-10">
+
+<!-- VUE APP STARTS FROM HERE -->
+
+					<div id='app' class="row justify-content-between">
+
+<!-- EDIT CONTACT MODAL --> 
+				        <div class="modal fade" id="cardUpd" tabindex="-1" role="dialog">
+				    		<div class="modal-dialog" role="document">
+				    			<div class="modal-content box">
+				    				<div class="modal-header">
+				    					<h5 class="modal-title" id="cardUpdLbl">Card Update</h5>
+				    					<button type="button" class="close" data-dismiss="modal">
+				    						<span>&otimes;</span>
+				    					</button>
+				    				</div>
+				    				
+				    				<div class="modal-body">
+						    			<div class="row justify-content-around">
+							        		<div class="col-2">
+							        			<div class="input-group m-1">
+							        				<label for="name-u">Name:</label>
+							        			</div>
+							        		</div>
+							        		<div class="col-9">
+							        			<div class="input-group m-1">
+							        				<input type="text" class="form-control" v-model = 'updCard.name' id ="name-u" name="name-u" placeholder="enter name here">
+							        			</div>
+							        		</div>
+							        		<div class="col-2">
+							        			<div class="input-group m-1">
+							        				<label for="phNo-u">Ph No.:</label>
+							        			</div>
+							        		</div>
+							        		<div class="col-9">
+							        			<div class="input-group m-1">
+							        				<input type="text" class="form-control" v-model='updCard.phNo' id ="phNo-u" name="phNo-u" placeholder="enter phone no. here">
+							        			</div>
+							        		</div>
+							        		<div class="col-2">
+							        			<div class="input-group m-1">
+							        				<label for="email-u">email:</label>
+							        			</div>
+							        		</div>
+							        		<div class="col-9">
+							        			<div class="input-group m-1">
+							        				<input type="text" class="form-control" v-model='updCard.email' id ="email-u" name="email-u" placeholder="enter email ID here">
+							        			</div>
+							        		</div>
+							        		<div class="col-2">
+							        			<div class="input-group m-1">
+							        				<label for="add-u">Add:</label>
+							        			</div>
+							        		</div>
+							        		<div class="col-9">
+							        			<div class="input-group m-1">
+							        				<textarea class="form-control" v-model='updCard.address' id ="add-u" name="add-u" placeholder="enter complete address here"></textarea>
+							        			</div>
+							        		</div>
+							        	</div>
+				    				</div>
+
+				    				<div class="modal-footer">
+				    					<button type="button" class="btn btn-secondary" data-dismiss="modal">close</button>
+				    					<button type="button" @click='posUptDb()' class="btn btn-primary" >Update Card</button>
+				    				</div>
+				    			</div>
+				    		</div>
+				    	</div>
+<!-- ALERT MODAL -->
+				    	<div class='modal fade' id="alertModal" tabindex="-1" role='dialog'>
+				    		<div class="modal-dialog modal-sm" role='document'>
+				    			<div class="modal-content box">
+				    				<div class="modal-header">
+				    					<h5 class="modal-title h4">{{alert.title}}</h5>
+				    					<button class="close" type='button' data-dismiss='modal' ><span>&otimes;</span></button>
+				    				</div>
+				    				<div class="modal-body">
+				    					{{alert.message}}
+				    				</div>
+				    				<div class="modal-footer" v-show='alert.footShow'>
+				    					<button class="btn btn-primary" @click="alert.func()" type="button">Ok</button>
+				    					<button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+				    				</div>
+				    			</div>
+				    		</div>
+				    	</div>
+
+<!-- NEW CONTACT FORM / SEARCH BOX-->
+				        <div class="accordion col-md-12" id="group1">
+				        <div class="row justify-content-around">
+
+				        	<div id ="newContact" class="col-md-9 m-1 collapse" data-parent='#group1'>
+				        		<div class="row box justify-content-around">
+					        		<div class="col-2">
+					        			<div class="input-group m-1">
+					        				<label for="name">Name:</label>
+					        			</div>
+					        		</div>
+					        		<div class="col-9">
+					        			<div class="input-group m-1">
+					        				<input type="text" class="form-control" v-model='neoCard.name' id ="name" name="name" placeholder="enter name here">
+					        			</div>
+					        		</div>
+					        		<div class="col-2">
+					        			<div class="input-group m-1">
+					        				<label for="phNo">Ph No.:</label>
+					        			</div>
+					        		</div>
+					        		<div class="col-9">
+					        			<div class="input-group m-1">
+					        				<input type="text" class="form-control" v-model='neoCard.phNo' id ="phNo" name="phNo" placeholder="enter phone no. here">
+					        			</div>
+					        		</div>
+					        		<div class="col-2">
+					        			<div class="input-group m-1">
+					        				<label for="email">email:</label>
+					        			</div>
+					        		</div>
+					        		<div class="col-9">
+					        			<div class="input-group m-1">
+					        				<input type="text" class="form-control" v-model='neoCard.email' id ="email" name="email" placeholder="enter email ID here">
+					        			</div>
+					        		</div>
+					        		<div class="col-2">
+					        			<div class="input-group m-1">
+					        				<label for="add">Add:</label>
+					        			</div>
+					        		</div>
+					        		<div class="col-9">
+					        			<div class="input-group m-1">
+					        				<textarea class="form-control" v-model='neoCard.add' id ="add" name="add" placeholder="enter complete address here"></textarea>
+					        			</div>
+					        		</div>
+					        		<div class="col-11 text-center">
+					        			<button class="btn btn-block m-1 b" @click='posNeoDb()' type="submit" id="submit">Submit</button>
+					        		</div>
+					        		
+					        	</div>
+					        </div>
+
+				        	<div id ="search" class="col-md-7 m-1 collapse" data-parent='#group1'>
+				        		<div class="row box justify-content-around text-center">
+					        		<div class="col-lg-9">
+					        			<div class="input-group m-1">
+						        			<input class="form-control" v-model='searchTxt' @input='searchCards()' type="text" name="search" placeholder="Type name to search">
+							        	</div>
+						        	</div>
+						        	<div class="col-lg-2">
+						        			<button class="btn btn-outline m-1 b" @click='()=>{searchTxt=""; getCards();}' type="button" title="Clear">&times;</button>
+							        </div>
+					        	</div>
+					        </div>
+				        </div>
+				        </div>
+
+<!-- CONTACT CARDS DISPLAY -->
+			        		<div v-for = '(card,index) in cards' :id='"c"+index' class="col-md box m-1 overflow-auto c">
+						        
+						        	<div class="row ">
+						        		<div class="col-3 h-bg r1">
+						        			Name:
+						        		</div>
+						        		<div class="col-9">
+						        			{{card.name}}
+						         		</div>
+						        	</div>
+						        	<div class="row">
+						        		<div class="col-3 h-bg">
+						        			Ph. No.:
+						        		</div>
+						        		<div class="col-9">
+						        			{{card.phNo}}
+						        		</div>
+						        	</div>
+						        	<div class="row">
+						        		<div class="col-3 h-bg">
+						        			email Id:
+						        		</div>
+						        		<div class="col-9 ">
+						        			{{card.email}}
+						        		</div>
+						        	</div>
+						        	<div class="row">
+						        		<div class="col-3 h-bg">
+						        			Add.:
+						        		</div>
+						        		<div class="col-9">
+						        			{{card.address}}
+						        		</div>
+						        	</div>
+
+				        			<div class = 'btn-group btn-group-sm' role='group'>
+						        		<button @click='modInvk(index)' class="btn e" ><svg width="24" height="24" version="1.1" viewBox="0 0 8.4667 8.4667" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" class="d-block"><title>Edit</title> <g transform="matrix(.96518 -.19572 -.1887 .88824 54.691 -253.96)" stroke="#00ee83" stroke-width=".58423"><path d="m3.8092 293.99c1.6508-1.3262 3.3017-2.6525 4.9525-3.9787m-7.0169 4.8817 1.9753-0.79725m0.63832 0.6717c-0.62654-0.77988-1.2531-1.5598-1.8796-2.3396m-0.76225 2.5847c0.24463-0.88287 0.48925-1.7658 0.73388-2.6486 1.6614-1.3348 3.3229-2.6695 4.9843-4.0043m-5.797 6.5548c0.91485-0.0486 1.8297-0.0972 2.7445-0.14586 1.6614-1.3348 3.3229-2.6695 4.9843-4.0043" fill="none" stroke="#00ee83" stroke-width=".58423"/></g></svg></button>
+						        		<button @click='alertMethod("Delete Warning","Are you sure you want to delete card of "+card.name+" ?",0,true,()=>del(card.id))' class="btn e" ><svg width="24" height="24" version="1.1" viewBox="0 0 8.4667 8.4667" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" class="d-block"><title>Delete</title><g transform="translate(0 -288.53)"><path d="m5.5551 291.6v3.6609m-1.2428-3.6427v3.6609m-1.3275-3.6518v3.6609m-0.94766-4.4096h4.4656v5.3039h-4.4656zm1.1591-1.5508 2.0626-0.0273m-3.6016 0.71807h5.1688" fill="none" stroke="#ff2e00" stroke-width=".8"/></g></svg></button>
+						        	</div>
+					        </div>
+				    </div>
+					
+				</div>
+	        </div>
+	     </div>
+
+        <script src="include_templ/jquery-2.2.4.min.js"></script>
+		<script type="text/javascript" src="include_templ/vue_v2.6.14.js"></script>
+		<script type="text/javascript" src="include_templ/popper.min.js"></script>
+		<script src="include_templ/bootstrap.min.js"></script>
+
+		<script>
+			
+			var app = new Vue ({
+				el: '#app',
+				data:{
+					cards:'',
+					updCard:{},
+					neoCard:{
+						mode:'insert',
+						name:'',
+						phNo:'',
+						email:'',
+						add:''
+					},
+					alert:{
+						title:'',
+						message:'',
+						footShow:'',
+						func:''
+					},
+					searchTxt:''
+				},
+				
+				methods:{
+					getCards: function(){
+						$.post('contact_form.php',
+									{mode:'get'},
+									function(response){
+										app.cards=response; /*here this.cards doesnt work so a more direct reference given. 
+															'app' is the Vue instance tag name*/
+										},
+									'json'
+						);
+					},
+
+					modInvk: function(index){
+						// this.updCard = this.cards[index]; /*This also worked but caused unusuall reactivity where changes in the modal inputs triggered immediate changes in 'cards' data object along with usuall changes in 'updCard' data. Also using 'for' loops to set  data directly in this.updCard removed reactivity from it completely. So creating a seperate object 'a' with 'for' loop (removes reactive getters and setters to 'cards'). then setting 'updCard' data directly to object a (sets reactive getters and setters only to 'updCard' obj)*/
+						var a = {};
+						for(prop in this.cards[index]){  
+							a[prop] = this.cards[index][prop];
+						}
+						this.updCard=a;
+						$('#cardUpd').modal('show');
+					},
+
+					posUptDb: function(){
+						var posD = {
+							mode:'update',
+							id:this.updCard.id,
+							name: this.updCard.name,
+							phNo: this.updCard.phNo,
+							email: this.updCard.email,
+							add: this.updCard.address
+						};
+						$.post(	'contact_form.php',
+								posD,
+								function(data){
+									console.log(data);
+									app.updCard={};
+									if(data>0){
+										app.getCards();
+										app.alertMethod('Success!','Card Changes successfully saved!',2500,false,'');
+									}else{
+										app.alertMethod('Attention!','No changes to save!',2500,false,'');
+									}
+									$('#cardUpd').modal('hide');
+								}
+						);
+					},
+
+					posNeoDb: function(){
+						if(this.neoCard.name!=""){
+							$.post('contact_form.php',
+									this.neoCard,
+									function(){
+										app.getCards();
+										app.alertMethod('Success','New Contact successfully saved!',2500,false,'')
+										app.neoCard.name=app.neoCard.phNo=app.neoCard.email=app.neoCard.add='';
+										app.scrolldwn();
+									})
+						}else{
+							this.alertMethod('Error Alert','Name Cannot be empty',2500,false,'');
+						}
+					},
+
+
+					del: function(i){
+						$.post('contact_form.php',
+								{mode:'delete',
+								id:i},
+								function(){
+									app.getCards();
+									$('#alertModal').modal('hide');
+								}
+						);
+					},
+
+					searchCards: function(){
+						$.post('contact_form.php',
+									{mode:'search',
+									searchTxt:this.searchTxt},
+									function(response){
+										app.cards=response; 
+										},
+									'json'
+						);						
+					},
+
+					alertMethod: function(title,message,time,footShow,func){ 
+						/*Explanation: 
+						title- mention the title of the alert-modal
+						message- mention the message to be shown in alert-modal
+						time- in case you want the modal to auto-disappear, mention time-delay 
+							in ms, if you don't want it to disappear, mention it as - 0
+						footShow- boolean argument, mention true if footer with ok / cancel 
+							buttons are required, else mention false if to used only as autodisappearing alert.
+						func- a function that is to be performed on pressing ok, should be in form of a
+							closure (func returning a func) eg. function(){return f();} OR ()=>f()*/
+						this.alert.title=title;
+						this.alert.message=message;
+						this.alert.footShow=footShow;
+						this.alert.func=func;
+						$('#alertModal').modal('show');
+						if(time>0){
+							setTimeout(function(){
+								$('#alertModal').modal('hide');
+							},time);
+						}
+					},
+
+					scrolldwn: function(){
+						var cardInd = 'c'+(this.cards.length-1);
+						setTimeout(()=>{document.getElementById(cardInd).scrollIntoView();}, 2000);
+					}
+				},
+
+				mounted(){
+					this.getCards();
+				},
+
+
+			})
+
+		</script>
+    </body>
+
+</html>
