@@ -126,7 +126,10 @@
             </a>
             <?php if(isset($_SESSION['usr_in_ssn'])){ ?>
             <div class="dropdown  ml-auto">
-            	<button class="btn btn-transparent text-light" type="button" data-toggle="dropdown"><?php echo 'Welcome '.$_SESSION['usr_in_ssn'];?> <img src="images/ac_pic.svg"></button>
+            	<button class="btn btn-transparent text-light" type="button" data-toggle="dropdown">
+            		<?php echo 'Welcome '.$_SESSION['usr_in_ssn'];?>
+            		<svg width="48" height="48" version="1.1" viewBox="0 0 12.7 12.7" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><g transform="translate(0,-284.3)"><path d="m1.9655 294.65a5.7236 11.939 0 0 1 4.3845-4.2649 5.7236 11.939 0 0 1 4.3845 4.2649m-2.3844-6.3584a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2zm3.7283 2.357a5.7284 5.7284 0 0 1-5.7284 5.7284 5.7284 5.7284 0 0 1-5.7284-5.7284 5.7284 5.7284 0 0 1 5.7284-5.7284 5.7284 5.7284 0 0 1 5.7284 5.7284z" fill="none" stroke="#b3b3b3" stroke-width="1.2431"/></g></svg>
+            	</button>
 		            <div class="dropdown-menu dropdown-menu-right bg-transparent"><form class='dropdown-item' action="#" method="POST">
 		            	<input type="hidden" name="logOut" id="logOut" value="1" >
 		            	<button class='btn btn-secondary' type="submit">Log Out</button>            	
